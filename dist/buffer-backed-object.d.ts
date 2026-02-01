@@ -39,6 +39,7 @@ declare module "buffer-backed-object" {
     }
     export function Uint16({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<number>;
     export function Uint32({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<number>;
+    export function BoolUint32({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<boolean>;
     export function Int16({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<number>;
     export function Int32({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<number>;
     export function Float32({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<number>;
@@ -75,6 +76,12 @@ declare module "buffer-backed-object" {
         b: number;
         a: number;
     }>;
+    export function Float32Vec4({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<[
+        number,
+        number,
+        number,
+        number
+    ]>;
     export function Uint32x2({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<{
         x: number;
         y: number;
