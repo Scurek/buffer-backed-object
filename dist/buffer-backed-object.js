@@ -1,11 +1,11 @@
-function h(t) {
+function O(t) {
   return typeof t == "symbol" ? !1 : !isNaN(t);
 }
 function z(t, e) {
   let i = t - t % e;
   return t % e != 0 && (i += e), i;
 }
-function O(t) {
+function T(t) {
   let e = 0;
   for (const { align: i = 1, size: r } of Object.values(t))
     e = z(e, i) + r;
@@ -27,16 +27,16 @@ function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
     }, c = u[o].offset + l.size;
   return c = z(c, n), r || (r = Math.floor((t.byteLength - i) / c)), new Proxy(new Array(r), {
     has(o, l) {
-      return h(l) ? l < r : l === "buffer" ? !0 : l in o;
+      return O(l) ? l < r : l === "buffer" ? !0 : l in o;
     },
-    get(o, l, T) {
+    get(o, l, I) {
       if (l === "buffer")
         return t;
-      if (!h(l)) {
-        let x = o[l];
-        return typeof x == "function" && (x = x.bind(T)), x;
+      if (!O(l)) {
+        const x = Reflect.get(o, l, I);
+        return typeof x == "function" ? x.bind(I) : x;
       }
-      const g = parseInt(l), I = g * c;
+      const g = parseInt(l), h = g * c;
       if (!(g >= o.length)) {
         if (!o[g]) {
           o[g] = {};
@@ -44,12 +44,12 @@ function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
             "get" in w && Object.defineProperty(o[g], x, {
               enumerable: !0,
               get() {
-                return w.get(f, I + w.offset);
+                return w.get(f, h + w.offset);
               },
               set(_) {
                 return w.set(
                   f,
-                  I + w.offset,
+                  h + w.offset,
                   _
                 );
               }
@@ -221,7 +221,7 @@ function L() {
   };
 }
 function b(t) {
-  const e = O(t);
+  const e = T(t);
   return {
     type: "NestedBufferBackedObject",
     align: U(t),
@@ -237,7 +237,7 @@ function b(t) {
   };
 }
 function R(t, e) {
-  const i = O(e) * t;
+  const i = T(e) * t;
   return {
     type: "NestedArrayOfBufferBackedObjects",
     align: Object.values(e)[0].align ?? 1,
@@ -457,5 +457,5 @@ export {
   z as nextAlign,
   k as reserved,
   U as structAlign,
-  O as structSize
+  T as structSize
 };

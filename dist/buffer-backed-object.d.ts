@@ -23,13 +23,13 @@ declare module "buffer-backed-object" {
     export function structSize(descriptors: Descriptors): number;
     export function structAlign(descriptors: Descriptors): number;
     export function ArrayOfBufferBackedObjects<T extends Descriptors>(buffer: ArrayBufferLike, descriptors: T, { byteOffset, length, align }?: {
-        byteOffset?: number;
-        length?: number;
-        align?: number;
+        byteOffset?: number | undefined;
+        length?: number | undefined;
+        align?: number | undefined;
     }): Array<DecodedBuffer<T>>;
     export function BufferBackedObject<T extends Descriptors>(buffer: ArrayBuffer, descriptors: T, { byteOffset, align }?: {
-        byteOffset?: number;
-        align?: number;
+        byteOffset?: number | undefined;
+        align?: number | undefined;
     }): DecodedBuffer<T>;
     export interface EndiannessOption {
         endianness: "little" | "big";

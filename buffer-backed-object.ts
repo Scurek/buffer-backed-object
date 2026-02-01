@@ -94,9 +94,9 @@ export function ArrayOfBufferBackedObjects<T extends Descriptors>(
         return buffer;
       }
       if (!isNumber(propName)) {
-        let prop = target[propName];
+        const prop = Reflect.get(target, propName, proxy);
         if (typeof prop === "function") {
-          prop = prop.bind(proxy);
+          return prop.bind(proxy);
         }
         return prop;
       }
