@@ -2,12 +2,20 @@
   "name": "buffer-backed-object",
   "version": "1.0.1",
   "description": "",
-  "repository": "github:GoogleChromeLabs/buffer-backed-object",
-  "homepage": "https://github.com/GoogleChromeLabs/buffer-backed-object#readme",
+  "repository": "github:Scurek/buffer-backed-object",
+  "homepage": "https://github.com/Scurek/buffer-backed-object#readme",
   "source": "buffer-backed-object.js",
   "module": "dist/buffer-backed-object.js",
   "main": "dist/buffer-backed-object.umd.js",
   "types": "dist/buffer-backed-object.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/buffer-backed-object.d.ts",
+      "import": "./dist/buffer-backed-object.js",
+      "require": "./dist/buffer-backed-object.umd.js"
+    }
+  },
   "scripts": {
     "build": "mkdir -p dist && run-s build:bundle build:types",
     "build:bundle": "vite build",
