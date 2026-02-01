@@ -22,7 +22,7 @@ declare module "buffer-backed-object" {
     export function nextAlign(current: number, align: number): number;
     export function structSize(descriptors: Descriptors): number;
     export function structAlign(descriptors: Descriptors): number;
-    export function ArrayOfBufferBackedObjects<T extends Descriptors>(buffer: ArrayBuffer, descriptors: T, { byteOffset, length, align }?: {
+    export function ArrayOfBufferBackedObjects<T extends Descriptors>(buffer: ArrayBufferLike, descriptors: T, { byteOffset, length, align }?: {
         byteOffset?: number;
         length?: number;
         align?: number;

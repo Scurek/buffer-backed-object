@@ -52,9 +52,9 @@ export function structAlign(descriptors: Descriptors): number {
 }
 
 export function ArrayOfBufferBackedObjects<T extends Descriptors>(
-  buffer: ArrayBuffer,
+  buffer: ArrayBufferLike,
   descriptors: T,
-  { byteOffset = 0, length = 0, align = structAlign(descriptors) } = {}
+  { byteOffset = 0, length = 0, align = structAlign(descriptors) } = {},
 ): Array<DecodedBuffer<T>> {
   const dataView = new DataView(buffer, byteOffset);
   let stride = 0;
@@ -124,7 +124,7 @@ export function ArrayOfBufferBackedObjects<T extends Descriptors>(
               return descriptor.set(
                 dataView,
                 itemOffset + descriptor.offset,
-                value
+                value,
               );
             },
           });
@@ -139,7 +139,7 @@ export function ArrayOfBufferBackedObjects<T extends Descriptors>(
 export function BufferBackedObject<T extends Descriptors>(
   buffer: ArrayBuffer,
   descriptors: T,
-  { byteOffset = 0, align = 1 } = {}
+  { byteOffset = 0, align = 1 } = {},
 ): DecodedBuffer<T> {
   return ArrayOfBufferBackedObjects(buffer, descriptors, {
     byteOffset,
@@ -324,7 +324,7 @@ export function Int8(): Descriptor<number> {
 }
 
 export function NestedBufferBackedObject<T extends Descriptors>(
-  descriptors: T
+  descriptors: T,
 ): Descriptor<DecodedBuffer<T>> {
   const size = structSize(descriptors);
   return {
@@ -345,7 +345,7 @@ export function NestedBufferBackedObject<T extends Descriptors>(
 
 export function NestedArrayOfBufferBackedObjects<T extends Descriptors>(
   length: number,
-  descriptors: T
+  descriptors: T,
 ): Descriptor<Array<DecodedBuffer<T>>> {
   const size = structSize(descriptors) * length;
   return {
@@ -416,7 +416,7 @@ export function Float32x2({
         set(
           target: { x: number; y: number },
           prop: string | symbol,
-          value: number
+          value: number,
         ) {
           if (prop === "r") {
             target.x = value;
@@ -462,7 +462,7 @@ export function Float32x3({
       return new Proxy(obj, {
         get(
           target: { x: number; y: number; z: number },
-          prop: string | symbol
+          prop: string | symbol,
         ) {
           if (prop === "r") return target.x;
           if (prop === "g") return target.y;
@@ -472,7 +472,7 @@ export function Float32x3({
         set(
           target: { x: number; y: number; z: number },
           prop: string | symbol,
-          value: number
+          value: number,
         ) {
           if (prop === "r") {
             target.x = value;
@@ -533,7 +533,7 @@ export function Float32x4({
       return new Proxy(obj, {
         get(
           target: { x: number; y: number; z: number; w: number },
-          prop: string | symbol
+          prop: string | symbol,
         ) {
           if (prop === "r") return target.x;
           if (prop === "g") return target.y;
@@ -544,7 +544,7 @@ export function Float32x4({
         set(
           target: { x: number; y: number; z: number; w: number },
           prop: string | symbol,
-          value: number
+          value: number,
         ) {
           if (prop === "r") {
             target.x = value;
