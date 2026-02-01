@@ -191,6 +191,25 @@ export function Uint32({
   };
 }
 
+export function BoolUint32({
+  endianness = "little",
+  align = 4,
+}: Partial<EndiannessOption & AlignOption> = {}): Descriptor<boolean> {
+  if (endianness !== "big" && endianness !== "little") {
+    throw Error("Endianness needs to be either 'big' or 'little'");
+  }
+  const littleEndian = endianness === "little";
+  return {
+    type: "Uint32",
+    align,
+    size: Uint32Array.BYTES_PER_ELEMENT,
+    get: (dataView, byteOffset) =>
+      dataView.getUint32(byteOffset, littleEndian) !== 0,
+    set: (dataView, byteOffset, value) =>
+      dataView.setUint32(byteOffset, Number(value), littleEndian),
+  };
+}
+
 export function Int16({
   endianness = "little",
   align = 2,
