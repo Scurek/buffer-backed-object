@@ -602,7 +602,7 @@ export function Float32Vec4({
   endianness = "little",
   align = 4,
 }: Partial<EndiannessOption & AlignOption> = {}): Descriptor<
-  [number, number, number, number]
+  [number, number, number, number] | (ArrayLike<number> & Iterable<number>) // Ensuring compatibility with glmatrix
 > {
   const base = {
     x: Float32({ endianness, align }),
@@ -624,10 +624,10 @@ export function Float32Vec4({
     },
     set(dataView, byteOffset, value) {
       descriptor.set(dataView, byteOffset, {
-        x: value[0],
-        y: value[1],
-        z: value[2],
-        w: value[3],
+        x: value.length > 0 ? value[0] : 0,
+        y: value.length > 1 ? value[1] : 0,
+        z: value.length > 2 ? value[2] : 0,
+        w: value.length > 3 ? value[3] : 0,
       });
     },
   };
