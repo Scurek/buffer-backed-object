@@ -14,7 +14,7 @@
     "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
     "test": "run-p test:*",
     "test:unit": "vitest run --coverage",
-    "test:types": "tsc --noEmit buffer-backed-object.type-test.ts",
+    "test:types": "tsc --noEmit -p tsconfig.test.json",
     "upgrade:check": "npx npm-check-updates --format group",
     "upgrade": "npx npm-check-updates -u"
   },
