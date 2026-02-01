@@ -598,6 +598,41 @@ export function Float32x4({
   };
 }
 
+export function Float32Vec4({
+  endianness = "little",
+  align = 4,
+}: Partial<EndiannessOption & AlignOption> = {}): Descriptor<
+  [number, number, number, number]
+> {
+  const base = {
+    x: Float32({ endianness, align }),
+    y: Float32({ endianness, align }),
+    z: Float32({ endianness, align }),
+    w: Float32({ endianness, align }),
+  };
+  const descriptor = NestedBufferBackedObject(base);
+  return {
+    ...descriptor,
+    get: (dataView, byteOffset) => {
+      const obj = descriptor.get(dataView, byteOffset) as {
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+      };
+      return [obj.x, obj.y, obj.z, obj.w];
+    },
+    set(dataView, byteOffset, value) {
+      descriptor.set(dataView, byteOffset, {
+        x: value[0],
+        y: value[1],
+        z: value[2],
+        w: value[3],
+      });
+    },
+  };
+}
+
 export function Uint32x2({
   endianness = "little",
   align = 4,
