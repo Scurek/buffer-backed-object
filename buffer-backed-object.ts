@@ -623,12 +623,16 @@ export function Float32Vec4({
       return [obj.x, obj.y, obj.z, obj.w];
     },
     set(dataView, byteOffset, value) {
-      descriptor.set(dataView, byteOffset, {
-        x: value.length > 0 ? value[0] : 0,
-        y: value.length > 1 ? value[1] : 0,
-        z: value.length > 2 ? value[2] : 0,
-        w: value.length > 3 ? value[3] : 0,
-      });
+      const obj = descriptor.get(dataView, byteOffset) as {
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+      };
+      obj.x = value.length > 0 ? value[0] : 0;
+      obj.y = value.length > 1 ? value[1] : 0;
+      obj.z = value.length > 2 ? value[2] : 0;
+      obj.w = value.length > 3 ? value[3] : 0;
     },
   };
 }

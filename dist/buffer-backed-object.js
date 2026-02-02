@@ -15,16 +15,16 @@ function U(t) {
   return Math.max(...Object.values(t).map((e) => e.align ?? 1));
 }
 function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
-  const f = new DataView(t, i);
+  const u = new DataView(t, i);
   let c = 0;
-  const u = {
+  const f = {
     ...e
   };
-  for (const [o, l] of Object.entries(u))
-    u[o] = {
+  for (const [o, l] of Object.entries(f))
+    f[o] = {
       ...l,
       offset: z(c, l.align ?? 1)
-    }, c = u[o].offset + l.size;
+    }, c = f[o].offset + l.size;
   return c = z(c, n), r || (r = Math.floor((t.byteLength - i) / c)), new Proxy(new Array(r), {
     has(o, l) {
       return O(l) ? l < r : l === "buffer" ? !0 : l in o;
@@ -40,17 +40,17 @@ function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
       if (!(g >= o.length)) {
         if (!o[g]) {
           o[g] = {};
-          for (const [x, w] of Object.entries(u))
+          for (const [x, w] of Object.entries(f))
             "get" in w && Object.defineProperty(o[g], x, {
               enumerable: !0,
               get() {
-                return w.get(f, I + w.offset);
+                return w.get(u, I + w.offset);
               },
-              set(_) {
+              set(j) {
                 return w.set(
-                  f,
+                  u,
                   I + w.offset,
-                  _
+                  j
                 );
               }
             });
@@ -61,7 +61,7 @@ function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
     }
   });
 }
-function j(t, e, { byteOffset: i = 0, align: r = 1 } = {}) {
+function _(t, e, { byteOffset: i = 0, align: r = 1 } = {}) {
   return B(t, e, {
     byteOffset: i,
     align: r
@@ -79,7 +79,7 @@ function A({
     align: e,
     size: Uint16Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getUint16(n, i),
-    set: (r, n, f) => r.setUint16(n, f, i)
+    set: (r, n, u) => r.setUint16(n, u, i)
   };
 }
 function s({
@@ -94,7 +94,7 @@ function s({
     align: e,
     size: Uint32Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getUint32(n, i),
-    set: (r, n, f) => r.setUint32(n, f, i)
+    set: (r, n, u) => r.setUint32(n, u, i)
   };
 }
 function F({
@@ -109,7 +109,7 @@ function F({
     align: e,
     size: Uint32Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getUint32(n, i) !== 0,
-    set: (r, n, f) => r.setUint32(n, Number(f), i)
+    set: (r, n, u) => r.setUint32(n, Number(u), i)
   };
 }
 function d({
@@ -124,7 +124,7 @@ function d({
     align: e,
     size: Int16Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getInt16(n, i),
-    set: (r, n, f) => r.setInt16(n, f, i)
+    set: (r, n, u) => r.setInt16(n, u, i)
   };
 }
 function y({
@@ -139,7 +139,7 @@ function y({
     align: e,
     size: Int32Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getInt32(n, i),
-    set: (r, n, f) => r.setInt32(n, f, i)
+    set: (r, n, u) => r.setInt32(n, u, i)
   };
 }
 function E({
@@ -154,7 +154,7 @@ function E({
     align: e,
     size: Float32Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getFloat32(n, i),
-    set: (r, n, f) => r.setFloat32(n, f, i)
+    set: (r, n, u) => r.setFloat32(n, u, i)
   };
 }
 function P({
@@ -169,7 +169,7 @@ function P({
     align: e,
     size: Float64Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getFloat64(n, i),
-    set: (r, n, f) => r.setFloat64(n, f, i)
+    set: (r, n, u) => r.setFloat64(n, u, i)
   };
 }
 function S({
@@ -184,7 +184,7 @@ function S({
     align: e,
     size: BigInt64Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getBigInt64(n, i),
-    set: (r, n, f) => r.setBigInt64(n, f, i)
+    set: (r, n, u) => r.setBigInt64(n, u, i)
   };
 }
 function M({
@@ -199,7 +199,7 @@ function M({
     align: e,
     size: BigUint64Array.BYTES_PER_ELEMENT,
     get: (r, n) => r.getBigUint64(n, i),
-    set: (r, n, f) => r.setBigUint64(n, f, i)
+    set: (r, n, u) => r.setBigUint64(n, u, i)
   };
 }
 function N() {
@@ -247,7 +247,7 @@ function R(t, e) {
       byteOffset: n + r.byteOffset,
       length: t
     }),
-    set: (r, n, f) => {
+    set: (r, n, u) => {
       throw Error("Cannot set an entire array");
     }
   };
@@ -259,8 +259,8 @@ function Y(t) {
     size: t,
     get: (e, i) => new TextDecoder().decode(new Uint8Array(e.buffer, i, t)).replace(/\u0000+$/, ""),
     set: (e, i, r) => {
-      const n = new TextEncoder().encode(r), f = new Uint8Array(e.buffer, i, t);
-      f.fill(0), f.set(n.subarray(0, t));
+      const n = new TextEncoder().encode(r), u = new Uint8Array(e.buffer, i, t);
+      u.fill(0), u.set(n.subarray(0, t));
     }
   };
 }
@@ -279,14 +279,14 @@ function D({
   }, r = b(i);
   return {
     ...r,
-    get: (n, f) => {
-      const c = r.get(n, f);
+    get: (n, u) => {
+      const c = r.get(n, u);
       return new Proxy(c, {
-        get(u, o) {
-          return o === "r" ? u.x : o === "g" ? u.y : u[o];
+        get(f, o) {
+          return o === "r" ? f.x : o === "g" ? f.y : f[o];
         },
-        set(u, o, l) {
-          return o === "r" ? (u.x = l, !0) : o === "g" ? (u.y = l, !0) : (u[o] = l, !0);
+        set(f, o, l) {
+          return o === "r" ? (f.x = l, !0) : o === "g" ? (f.y = l, !0) : (f[o] = l, !0);
         }
       });
     }
@@ -303,14 +303,14 @@ function V({
   }, r = b(i);
   return {
     ...r,
-    get: (n, f) => {
-      const c = r.get(n, f);
+    get: (n, u) => {
+      const c = r.get(n, u);
       return new Proxy(c, {
-        get(u, o) {
-          return o === "r" ? u.x : o === "g" ? u.y : o === "b" ? u.z : u[o];
+        get(f, o) {
+          return o === "r" ? f.x : o === "g" ? f.y : o === "b" ? f.z : f[o];
         },
-        set(u, o, l) {
-          return o === "r" ? (u.x = l, !0) : o === "g" ? (u.y = l, !0) : o === "b" ? (u.z = l, !0) : (u[o] = l, !0);
+        set(f, o, l) {
+          return o === "r" ? (f.x = l, !0) : o === "g" ? (f.y = l, !0) : o === "b" ? (f.z = l, !0) : (f[o] = l, !0);
         }
       });
     }
@@ -328,14 +328,14 @@ function C({
   }, r = b(i);
   return {
     ...r,
-    get: (n, f) => {
-      const c = r.get(n, f);
+    get: (n, u) => {
+      const c = r.get(n, u);
       return new Proxy(c, {
-        get(u, o) {
-          return o === "r" ? u.x : o === "g" ? u.y : o === "b" ? u.z : o === "a" ? u.w : u[o];
+        get(f, o) {
+          return o === "r" ? f.x : o === "g" ? f.y : o === "b" ? f.z : o === "a" ? f.w : f[o];
         },
-        set(u, o, l) {
-          return o === "r" ? (u.x = l, !0) : o === "g" ? (u.y = l, !0) : o === "b" ? (u.z = l, !0) : o === "a" ? (u.w = l, !0) : (u[o] = l, !0);
+        set(f, o, l) {
+          return o === "r" ? (f.x = l, !0) : o === "g" ? (f.y = l, !0) : o === "b" ? (f.z = l, !0) : o === "a" ? (f.w = l, !0) : (f[o] = l, !0);
         }
       });
     }
@@ -353,17 +353,13 @@ function $({
   }, r = b(i);
   return {
     ...r,
-    get: (n, f) => {
-      const c = r.get(n, f);
+    get: (n, u) => {
+      const c = r.get(n, u);
       return [c.x, c.y, c.z, c.w];
     },
-    set(n, f, c) {
-      r.set(n, f, {
-        x: c.length > 0 ? c[0] : 0,
-        y: c.length > 1 ? c[1] : 0,
-        z: c.length > 2 ? c[2] : 0,
-        w: c.length > 3 ? c[3] : 0
-      });
+    set(n, u, c) {
+      const f = r.get(n, u);
+      f.x = c.length > 0 ? c[0] : 0, f.y = c.length > 1 ? c[1] : 0, f.z = c.length > 2 ? c[2] : 0, f.w = c.length > 3 ? c[3] : 0;
     }
   };
 }
@@ -432,7 +428,7 @@ export {
   S as BigInt64,
   M as BigUint64,
   F as BoolUint32,
-  j as BufferBackedObject,
+  _ as BufferBackedObject,
   E as Float32,
   $ as Float32Vec4,
   D as Float32x2,
