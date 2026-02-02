@@ -81,7 +81,7 @@ declare module "buffer-backed-object" {
         number,
         number,
         number
-    ]>;
+    ] | (ArrayLike<number> & Iterable<number>)>;
     export function Uint32x2({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<{
         x: number;
         y: number;

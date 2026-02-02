@@ -29,14 +29,14 @@ function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
     has(o, l) {
       return O(l) ? l < r : l === "buffer" ? !0 : l in o;
     },
-    get(o, l, I) {
+    get(o, l, h) {
       if (l === "buffer")
         return t;
       if (!O(l)) {
-        const x = Reflect.get(o, l, I);
-        return typeof x == "function" ? x.bind(I) : x;
+        const x = Reflect.get(o, l, h);
+        return typeof x == "function" ? x.bind(h) : x;
       }
-      const g = parseInt(l), h = g * c;
+      const g = parseInt(l), I = g * c;
       if (!(g >= o.length)) {
         if (!o[g]) {
           o[g] = {};
@@ -44,12 +44,12 @@ function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
             "get" in w && Object.defineProperty(o[g], x, {
               enumerable: !0,
               get() {
-                return w.get(f, h + w.offset);
+                return w.get(f, I + w.offset);
               },
               set(_) {
                 return w.set(
                   f,
-                  h + w.offset,
+                  I + w.offset,
                   _
                 );
               }
@@ -359,10 +359,10 @@ function $({
     },
     set(n, f, c) {
       r.set(n, f, {
-        x: c[0],
-        y: c[1],
-        z: c[2],
-        w: c[3]
+        x: c.length > 0 ? c[0] : 0,
+        y: c.length > 1 ? c[1] : 0,
+        z: c.length > 2 ? c[2] : 0,
+        w: c.length > 3 ? c[3] : 0
       });
     }
   };
