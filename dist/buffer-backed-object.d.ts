@@ -97,6 +97,12 @@ declare module "buffer-backed-object" {
         z: number;
         w: number;
     }>;
+    export function Uint32Vec4({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<[
+        number,
+        number,
+        number,
+        number
+    ] | (ArrayLike<number> & Iterable<number>)>;
     export function Int32x2({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<{
         x: number;
         y: number;
@@ -112,4 +118,10 @@ declare module "buffer-backed-object" {
         z: number;
         w: number;
     }>;
+    export function Int32Vec4({ endianness, align, }?: Partial<EndiannessOption & AlignOption>): Descriptor<[
+        number,
+        number,
+        number,
+        number
+    ] | (ArrayLike<number> & Iterable<number>)>;
 }

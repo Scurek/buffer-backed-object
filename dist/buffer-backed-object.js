@@ -1,68 +1,68 @@
-function O(t) {
+function j(t) {
   return typeof t == "symbol" ? !1 : !isNaN(t);
 }
 function z(t, e) {
   let i = t - t % e;
   return t % e != 0 && (i += e), i;
 }
-function T(t) {
+function O(t) {
   let e = 0;
   for (const { align: i = 1, size: r } of Object.values(t))
     e = z(e, i) + r;
-  return e = z(e, U(t)), e;
+  return e = z(e, h(t)), e;
 }
-function U(t) {
+function h(t) {
   return Math.max(...Object.values(t).map((e) => e.align ?? 1));
 }
-function B(t, e, { byteOffset: i = 0, length: r = 0, align: n = U(e) } = {}) {
+function U(t, e, { byteOffset: i = 0, length: r = 0, align: n = h(e) } = {}) {
   const u = new DataView(t, i);
-  let c = 0;
+  let o = 0;
   const f = {
     ...e
   };
-  for (const [o, l] of Object.entries(f))
-    f[o] = {
+  for (const [c, l] of Object.entries(f))
+    f[c] = {
       ...l,
-      offset: z(c, l.align ?? 1)
-    }, c = f[o].offset + l.size;
-  return c = z(c, n), r || (r = Math.floor((t.byteLength - i) / c)), new Proxy(new Array(r), {
-    has(o, l) {
-      return O(l) ? l < r : l === "buffer" ? !0 : l in o;
+      offset: z(o, l.align ?? 1)
+    }, o = f[c].offset + l.size;
+  return o = z(o, n), r || (r = Math.floor((t.byteLength - i) / o)), new Proxy(new Array(r), {
+    has(c, l) {
+      return j(l) ? l < r : l === "buffer" ? !0 : l in c;
     },
-    get(o, l, h) {
+    get(c, l, B) {
       if (l === "buffer")
         return t;
-      if (!O(l)) {
-        const x = Reflect.get(o, l, h);
-        return typeof x == "function" ? x.bind(h) : x;
+      if (!j(l)) {
+        const x = Reflect.get(c, l, B);
+        return typeof x == "function" ? x.bind(B) : x;
       }
-      const g = parseInt(l), I = g * c;
-      if (!(g >= o.length)) {
-        if (!o[g]) {
-          o[g] = {};
+      const g = parseInt(l), I = g * o;
+      if (!(g >= c.length)) {
+        if (!c[g]) {
+          c[g] = {};
           for (const [x, w] of Object.entries(f))
-            "get" in w && Object.defineProperty(o[g], x, {
+            "get" in w && Object.defineProperty(c[g], x, {
               enumerable: !0,
               get() {
                 return w.get(u, I + w.offset);
               },
-              set(j) {
+              set(T) {
                 return w.set(
                   u,
                   I + w.offset,
-                  j
+                  T
                 );
               }
             });
-          Object.freeze(o[g]);
+          Object.freeze(c[g]);
         }
-        return o[g];
+        return c[g];
       }
     }
   });
 }
 function _(t, e, { byteOffset: i = 0, align: r = 1 } = {}) {
-  return B(t, e, {
+  return U(t, e, {
     byteOffset: i,
     align: r
   })[0];
@@ -82,7 +82,7 @@ function A({
     set: (r, n, u) => r.setUint16(n, u, i)
   };
 }
-function s({
+function b({
   endianness: t = "little",
   align: e = 4
 } = {}) {
@@ -112,7 +112,7 @@ function F({
     set: (r, n, u) => r.setUint32(n, Number(u), i)
   };
 }
-function d({
+function P({
   endianness: t = "little",
   align: e = 2
 } = {}) {
@@ -127,7 +127,7 @@ function d({
     set: (r, n, u) => r.setInt16(n, u, i)
   };
 }
-function y({
+function E({
   endianness: t = "little",
   align: e = 4
 } = {}) {
@@ -142,7 +142,7 @@ function y({
     set: (r, n, u) => r.setInt32(n, u, i)
   };
 }
-function E({
+function s({
   endianness: t = "little",
   align: e = 4
 } = {}) {
@@ -157,7 +157,7 @@ function E({
     set: (r, n, u) => r.setFloat32(n, u, i)
   };
 }
-function P({
+function S({
   endianness: t = "little",
   align: e = 8
 } = {}) {
@@ -172,7 +172,7 @@ function P({
     set: (r, n, u) => r.setFloat64(n, u, i)
   };
 }
-function S({
+function M({
   endianness: t = "little",
   align: e = 8
 } = {}) {
@@ -187,7 +187,7 @@ function S({
     set: (r, n, u) => r.setBigInt64(n, u, i)
   };
 }
-function M({
+function N({
   endianness: t = "little",
   align: e = 8
 } = {}) {
@@ -202,7 +202,7 @@ function M({
     set: (r, n, u) => r.setBigUint64(n, u, i)
   };
 }
-function N() {
+function d() {
   return {
     type: "Uint8",
     align: 1,
@@ -220,14 +220,14 @@ function L() {
     set: (t, e, i) => t.setInt8(e, i)
   };
 }
-function b(t) {
-  const e = T(t);
+function y(t) {
+  const e = O(t);
   return {
     type: "NestedBufferBackedObject",
-    align: U(t),
+    align: h(t),
     size: e,
     innerDescriptors: t,
-    get: (i, r) => B(i.buffer, t, {
+    get: (i, r) => U(i.buffer, t, {
       byteOffset: i.byteOffset + r,
       length: 1
     })[0],
@@ -237,13 +237,13 @@ function b(t) {
   };
 }
 function R(t, e) {
-  const i = T(e) * t;
+  const i = O(e) * t;
   return {
     type: "NestedArrayOfBufferBackedObjects",
     align: Object.values(e)[0].align ?? 1,
     size: i,
     innerDescriptors: e,
-    get: (r, n) => B(r.buffer, e, {
+    get: (r, n) => U(r.buffer, e, {
       byteOffset: n + r.byteOffset,
       length: t
     }),
@@ -274,19 +274,19 @@ function D({
   align: e = 4
 } = {}) {
   const i = {
-    x: E({ endianness: t, align: e }),
-    y: E({ endianness: t, align: e })
-  }, r = b(i);
+    x: s({ endianness: t, align: e }),
+    y: s({ endianness: t, align: e })
+  }, r = y(i);
   return {
     ...r,
     get: (n, u) => {
-      const c = r.get(n, u);
-      return new Proxy(c, {
-        get(f, o) {
-          return o === "r" ? f.x : o === "g" ? f.y : f[o];
+      const o = r.get(n, u);
+      return new Proxy(o, {
+        get(f, c) {
+          return c === "r" ? f.x : c === "g" ? f.y : f[c];
         },
-        set(f, o, l) {
-          return o === "r" ? (f.x = l, !0) : o === "g" ? (f.y = l, !0) : (f[o] = l, !0);
+        set(f, c, l) {
+          return c === "r" ? (f.x = l, !0) : c === "g" ? (f.y = l, !0) : (f[c] = l, !0);
         }
       });
     }
@@ -297,20 +297,20 @@ function V({
   align: e = 4
 } = {}) {
   const i = {
-    x: E({ endianness: t, align: e }),
-    y: E({ endianness: t, align: e }),
-    z: E({ endianness: t, align: e })
-  }, r = b(i);
+    x: s({ endianness: t, align: e }),
+    y: s({ endianness: t, align: e }),
+    z: s({ endianness: t, align: e })
+  }, r = y(i);
   return {
     ...r,
     get: (n, u) => {
-      const c = r.get(n, u);
-      return new Proxy(c, {
-        get(f, o) {
-          return o === "r" ? f.x : o === "g" ? f.y : o === "b" ? f.z : f[o];
+      const o = r.get(n, u);
+      return new Proxy(o, {
+        get(f, c) {
+          return c === "r" ? f.x : c === "g" ? f.y : c === "b" ? f.z : f[c];
         },
-        set(f, o, l) {
-          return o === "r" ? (f.x = l, !0) : o === "g" ? (f.y = l, !0) : o === "b" ? (f.z = l, !0) : (f[o] = l, !0);
+        set(f, c, l) {
+          return c === "r" ? (f.x = l, !0) : c === "g" ? (f.y = l, !0) : c === "b" ? (f.z = l, !0) : (f[c] = l, !0);
         }
       });
     }
@@ -321,21 +321,21 @@ function C({
   align: e = 4
 } = {}) {
   const i = {
-    x: E({ endianness: t, align: e }),
-    y: E({ endianness: t, align: e }),
-    z: E({ endianness: t, align: e }),
-    w: E({ endianness: t, align: e })
-  }, r = b(i);
+    x: s({ endianness: t, align: e }),
+    y: s({ endianness: t, align: e }),
+    z: s({ endianness: t, align: e }),
+    w: s({ endianness: t, align: e })
+  }, r = y(i);
   return {
     ...r,
     get: (n, u) => {
-      const c = r.get(n, u);
-      return new Proxy(c, {
-        get(f, o) {
-          return o === "r" ? f.x : o === "g" ? f.y : o === "b" ? f.z : o === "a" ? f.w : f[o];
+      const o = r.get(n, u);
+      return new Proxy(o, {
+        get(f, c) {
+          return c === "r" ? f.x : c === "g" ? f.y : c === "b" ? f.z : c === "a" ? f.w : f[c];
         },
-        set(f, o, l) {
-          return o === "r" ? (f.x = l, !0) : o === "g" ? (f.y = l, !0) : o === "b" ? (f.z = l, !0) : o === "a" ? (f.w = l, !0) : (f[o] = l, !0);
+        set(f, c, l) {
+          return c === "r" ? (f.x = l, !0) : c === "g" ? (f.y = l, !0) : c === "b" ? (f.z = l, !0) : c === "a" ? (f.w = l, !0) : (f[c] = l, !0);
         }
       });
     }
@@ -346,20 +346,20 @@ function $({
   align: e = 4
 } = {}) {
   const i = {
-    x: E({ endianness: t, align: e }),
-    y: E({ endianness: t, align: e }),
-    z: E({ endianness: t, align: e }),
-    w: E({ endianness: t, align: e })
-  }, r = b(i);
+    x: s({ endianness: t, align: e }),
+    y: s({ endianness: t, align: e }),
+    z: s({ endianness: t, align: e }),
+    w: s({ endianness: t, align: e })
+  }, r = y(i);
   return {
     ...r,
     get: (n, u) => {
-      const c = r.get(n, u);
-      return [c.x, c.y, c.z, c.w];
+      const o = r.get(n, u);
+      return [o.x, o.y, o.z, o.w];
     },
-    set(n, u, c) {
+    set(n, u, o) {
       const f = r.get(n, u);
-      f.x = c.length > 0 ? c[0] : 0, f.y = c.length > 1 ? c[1] : 0, f.z = c.length > 2 ? c[2] : 0, f.w = c.length > 3 ? c[3] : 0;
+      f.x = o.length > 0 ? o[0] : 0, f.y = o.length > 1 ? o[1] : 0, f.z = o.length > 2 ? o[2] : 0, f.w = o.length > 3 ? o[3] : 0;
     }
   };
 }
@@ -367,91 +367,137 @@ function m({
   endianness: t = "little",
   align: e = 4
 } = {}) {
-  return b({
-    x: s({ endianness: t, align: e }),
-    y: s({ endianness: t, align: e })
+  return y({
+    x: b({ endianness: t, align: e }),
+    y: b({ endianness: t, align: e })
   });
 }
 function q({
   endianness: t = "little",
   align: e = 4
 } = {}) {
-  return b({
-    x: s({ endianness: t, align: e }),
-    y: s({ endianness: t, align: e }),
-    z: s({ endianness: t, align: e })
+  return y({
+    x: b({ endianness: t, align: e }),
+    y: b({ endianness: t, align: e }),
+    z: b({ endianness: t, align: e })
   });
 }
 function G({
   endianness: t = "little",
   align: e = 4
 } = {}) {
-  return b({
-    x: s({ endianness: t, align: e }),
-    y: s({ endianness: t, align: e }),
-    z: s({ endianness: t, align: e }),
-    w: s({ endianness: t, align: e })
+  return y({
+    x: b({ endianness: t, align: e }),
+    y: b({ endianness: t, align: e }),
+    z: b({ endianness: t, align: e }),
+    w: b({ endianness: t, align: e })
   });
 }
 function H({
   endianness: t = "little",
   align: e = 4
 } = {}) {
-  return b({
-    x: y({ endianness: t, align: e }),
-    y: y({ endianness: t, align: e })
-  });
+  const i = {
+    x: b({ endianness: t, align: e }),
+    y: b({ endianness: t, align: e }),
+    z: b({ endianness: t, align: e }),
+    w: b({ endianness: t, align: e })
+  }, r = y(i);
+  return {
+    ...r,
+    get: (n, u) => {
+      const o = r.get(n, u);
+      return [o.x, o.y, o.z, o.w];
+    },
+    set(n, u, o) {
+      const f = r.get(n, u);
+      f.x = o.length > 0 ? o[0] : 0, f.y = o.length > 1 ? o[1] : 0, f.z = o.length > 2 ? o[2] : 0, f.w = o.length > 3 ? o[3] : 0;
+    }
+  };
 }
 function J({
   endianness: t = "little",
   align: e = 4
 } = {}) {
-  return b({
-    x: y({ endianness: t, align: e }),
-    y: y({ endianness: t, align: e }),
-    z: y({ endianness: t, align: e })
+  return y({
+    x: E({ endianness: t, align: e }),
+    y: E({ endianness: t, align: e })
   });
 }
 function K({
   endianness: t = "little",
   align: e = 4
 } = {}) {
-  return b({
-    x: y({ endianness: t, align: e }),
-    y: y({ endianness: t, align: e }),
-    z: y({ endianness: t, align: e }),
-    w: y({ endianness: t, align: e })
+  return y({
+    x: E({ endianness: t, align: e }),
+    y: E({ endianness: t, align: e }),
+    z: E({ endianness: t, align: e })
   });
 }
+function Q({
+  endianness: t = "little",
+  align: e = 4
+} = {}) {
+  return y({
+    x: E({ endianness: t, align: e }),
+    y: E({ endianness: t, align: e }),
+    z: E({ endianness: t, align: e }),
+    w: E({ endianness: t, align: e })
+  });
+}
+function W({
+  endianness: t = "little",
+  align: e = 4
+} = {}) {
+  const i = {
+    x: E({ endianness: t, align: e }),
+    y: E({ endianness: t, align: e }),
+    z: E({ endianness: t, align: e }),
+    w: E({ endianness: t, align: e })
+  }, r = y(i);
+  return {
+    ...r,
+    get: (n, u) => {
+      const o = r.get(n, u);
+      return [o.x, o.y, o.z, o.w];
+    },
+    set(n, u, o) {
+      const f = r.get(n, u);
+      f.x = o.length > 0 ? o[0] : 0, f.y = o.length > 1 ? o[1] : 0, f.z = o.length > 2 ? o[2] : 0, f.w = o.length > 3 ? o[3] : 0;
+    }
+  };
+}
 export {
-  B as ArrayOfBufferBackedObjects,
-  S as BigInt64,
-  M as BigUint64,
+  U as ArrayOfBufferBackedObjects,
+  M as BigInt64,
+  N as BigUint64,
   F as BoolUint32,
   _ as BufferBackedObject,
-  E as Float32,
+  s as Float32,
   $ as Float32Vec4,
   D as Float32x2,
   V as Float32x3,
   C as Float32x4,
-  P as Float64,
-  d as Int16,
-  y as Int32,
-  H as Int32x2,
-  J as Int32x3,
-  K as Int32x4,
+  S as Float64,
+  P as Int16,
+  E as Int32,
+  W as Int32Vec4,
+  J as Int32x2,
+  K as Int32x3,
+  Q as Int32x4,
   L as Int8,
   R as NestedArrayOfBufferBackedObjects,
-  b as NestedBufferBackedObject,
+  y as NestedBufferBackedObject,
   Y as UTF8String,
   A as Uint16,
-  s as Uint32,
+  b as Uint32,
+  H as Uint32Vec4,
   m as Uint32x2,
   q as Uint32x3,
   G as Uint32x4,
-  N as Uint8,
+  d as Uint8,
   z as nextAlign,
   k as reserved,
-  U as structAlign,
-  T as structSize
+  h as structAlign,
+  O as structSize
 };

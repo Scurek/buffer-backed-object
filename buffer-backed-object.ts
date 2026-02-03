@@ -682,6 +682,45 @@ export function Uint32x4({
   });
 }
 
+export function Uint32Vec4({
+  endianness = "little",
+  align = 4,
+}: Partial<EndiannessOption & AlignOption> = {}): Descriptor<
+  [number, number, number, number] | (ArrayLike<number> & Iterable<number>) // Ensuring compatibility with glmatrix
+> {
+  const base = {
+    x: Uint32({ endianness, align }),
+    y: Uint32({ endianness, align }),
+    z: Uint32({ endianness, align }),
+    w: Uint32({ endianness, align }),
+  };
+  const descriptor = NestedBufferBackedObject(base);
+  return {
+    ...descriptor,
+    get: (dataView, byteOffset) => {
+      const obj = descriptor.get(dataView, byteOffset) as {
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+      };
+      return [obj.x, obj.y, obj.z, obj.w];
+    },
+    set(dataView, byteOffset, value) {
+      const obj = descriptor.get(dataView, byteOffset) as {
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+      };
+      obj.x = value.length > 0 ? value[0] : 0;
+      obj.y = value.length > 1 ? value[1] : 0;
+      obj.z = value.length > 2 ? value[2] : 0;
+      obj.w = value.length > 3 ? value[3] : 0;
+    },
+  };
+}
+
 export function Int32x2({
   endianness = "little",
   align = 4,
@@ -725,4 +764,43 @@ export function Int32x4({
     z: Int32({ endianness, align }),
     w: Int32({ endianness, align }),
   });
+}
+
+export function Int32Vec4({
+  endianness = "little",
+  align = 4,
+}: Partial<EndiannessOption & AlignOption> = {}): Descriptor<
+  [number, number, number, number] | (ArrayLike<number> & Iterable<number>) // Ensuring compatibility with glmatrix
+> {
+  const base = {
+    x: Int32({ endianness, align }),
+    y: Int32({ endianness, align }),
+    z: Int32({ endianness, align }),
+    w: Int32({ endianness, align }),
+  };
+  const descriptor = NestedBufferBackedObject(base);
+  return {
+    ...descriptor,
+    get: (dataView, byteOffset) => {
+      const obj = descriptor.get(dataView, byteOffset) as {
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+      };
+      return [obj.x, obj.y, obj.z, obj.w];
+    },
+    set(dataView, byteOffset, value) {
+      const obj = descriptor.get(dataView, byteOffset) as {
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+      };
+      obj.x = value.length > 0 ? value[0] : 0;
+      obj.y = value.length > 1 ? value[1] : 0;
+      obj.z = value.length > 2 ? value[2] : 0;
+      obj.w = value.length > 3 ? value[3] : 0;
+    },
+  };
 }
